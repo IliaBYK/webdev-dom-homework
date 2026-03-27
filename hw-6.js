@@ -13,22 +13,6 @@ const formattedDate = now.toLocaleDateString("ru-RU", {
   minute: "2-digit",
 });
 
-//hw-7
-
-const likeBtns = document.querySelectorAll(".like-button");
-
-console.log(likeBtns);
-
-const switchLike = (element) => {
-  element.classList.toggle("-active-like");
-}
-
-for (const likeBtn of likeBtns) {
-  likeBtn.addEventListener("click", () => {
-    switchLike(likeBtn);
-  });
-}
-
 const comment = (nameValue, commentValue) => `
       <li class="comment">
         <div class="comment-header">
