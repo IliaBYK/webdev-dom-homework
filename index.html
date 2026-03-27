@@ -68,7 +68,7 @@
 
     const comments = document.querySelector('.comments');
     const btn = document.querySelector('.add-form-button');
-    const name = document.querySelector('.add-form-name');
+    const nameForm = document.querySelector('.add-form-name');
     const textarea = document.querySelector('.add-form-text');
     const likeCount = 0;
 
@@ -106,10 +106,22 @@
     }
 
     btn.addEventListener('click', () => {
-      func(name.value, textarea.value);
+      if(nameForm.value === '') {
+        nameForm.style.border = '2px solid red';
+        alert('Вы не указали своего имени!')
+      } else if (textarea.value === '') {
+        nameForm.style.border = 'none';
+        textarea.style.border = '2px solid red';
+        alert('Вы не ввели свой комментарий!')
+      } else {
+        func(nameForm.value, textarea.value);
 
-      name.value = '';
-      textarea.value = '';
+        nameForm.style.border = 'none';
+        textarea.style.border = 'none';
+
+        nameForm.value = '';
+        textarea.value = '';
+      }
     })
 
     console.log("It works!");
