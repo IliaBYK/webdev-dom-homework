@@ -4,6 +4,7 @@ export const cards = [
     comment: "Это будет первый комментарий на этой странице",
     likes: 3,
     isLiked: false,
+    date: 0
   },
   {
     name: "Варвара Н.",
@@ -13,12 +14,13 @@ export const cards = [
   },
 ];
 
-export const addCardToArray = (name, comment) => {
+export const addCardToArray = (name, comment, date) => {
   const newCard = {
     name,
     comment,
     likes: 0,
     isLiked: false,
+    date
   };
 
   cards.push(newCard);

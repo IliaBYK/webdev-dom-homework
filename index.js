@@ -1,5 +1,6 @@
 import { cards, addCardToArray } from "./cards.js";
 
+const now = new Date();
 const renderFunc = () => {
   const comments = document.querySelector(".comments");
   const btn = document.querySelector(".add-form-button");
@@ -16,7 +17,6 @@ const renderFunc = () => {
     return `${day}.${month}.${year} ${hours}:${minutes}`;
   };
 
-  const now = new Date();
 
   const switchLike = (element) => {
     const likeCounter = element
@@ -35,6 +35,11 @@ const renderFunc = () => {
     likeCounter.textContent = currentCount;
   };
 
+  const commentClick = (event) => {
+    nameForm.textContent = event.target.querySelector(".comment-name");
+    textarea.textContent = event.target.querySelector(".comment-text");
+  };
+
   comments.addEventListener("click", (e) => {
     if (e.target.classList.contains("like-button")) {
       switchLike(e.target);
@@ -49,7 +54,7 @@ const renderFunc = () => {
   ) => `
     <li class="comment">
       <div class="comment-header">
-        <div>${nameValue}</div>
+        <div class="comment-name">${nameValue}</div>
         <div>${formatDate(now)}</div>
       </div>
       <div class="comment-body">
