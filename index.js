@@ -1,3 +1,5 @@
+import { cards, addCardToArray } from "./cards.js";
+
 const renderFunc = () => {
   const comments = document.querySelector(".comments");
   const btn = document.querySelector(".add-form-button");
@@ -38,7 +40,7 @@ const renderFunc = () => {
     }
   });
 
-  const comment = (nameValue, commentValue) => `
+  const commentCard = (nameValue, commentValue, likeCounter = 0, isLiked = false) => `
     <li class="comment">
       <div class="comment-header">
         <div>${nameValue}</div>
@@ -51,16 +53,32 @@ const renderFunc = () => {
       </div>
       <div class="comment-footer">
         <div class="likes">
-          <span class="likes-counter">0</span>
-          <button class="like-button"></button>
+          <span class="likes-counter">${likeCounter}</span>
+          <button class="like-button ${isLiked ? "-active-like" : ""}"></button>
         </div>
       </div>
     </li>
   `;
 
-  const addComment = (nameValue, commentValue) => {
-    comments.innerHTML += comment(nameValue, commentValue);
-  };
+  cards.forEach((card) => {
+    comments.innerHTML += commentCard(
+      card.name,
+      card.comment,
+      card.likes,
+      card.isLiked
+    );
+  })
+
+  const addComment = (name, comment) => {
+    const newCard = addCardToArray(name, comment);
+
+    comments.innerHTML += commentCard(
+      newCard.name,
+      newCard.comment,
+      newCard.likes,
+      newCard.isLiked
+    );
+  }
 
   btn.addEventListener("click", () => {
     if (nameForm.value === "") {
