@@ -6,16 +6,17 @@ const renderFunc = () => {
   const nameForm = document.querySelector(".add-form-name");
   const textarea = document.querySelector(".add-form-text");
 
-  const getFormattedDate = () => {
-    const now = new Date();
-    return now.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const formatDate = (date = new Date()) => {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
   };
+
+  const now = new Date();
 
   const switchLike = (element) => {
     const likeCounter = element
@@ -40,11 +41,16 @@ const renderFunc = () => {
     }
   });
 
-  const commentCard = (nameValue, commentValue, likeCounter = 0, isLiked = false) => `
+  const commentCard = (
+    nameValue,
+    commentValue,
+    likeCounter = 0,
+    isLiked = false
+  ) => `
     <li class="comment">
       <div class="comment-header">
         <div>${nameValue}</div>
-        <div>${getFormattedDate()}</div>
+        <div>${formatDate(now)}</div>
       </div>
       <div class="comment-body">
         <div class="comment-text">
