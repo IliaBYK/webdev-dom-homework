@@ -17,11 +17,13 @@ const renderFunc = () => {
     return `${day}.${month}.${year} ${hours}:${minutes}`;
   };
 
-  const escapeHtml = (unsafe) => {
-    return unsafe
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  const escapeHtml = (text) => {
+    return text
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   };
 
 
