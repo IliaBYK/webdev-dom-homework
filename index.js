@@ -17,6 +17,13 @@ const renderFunc = () => {
     return `${day}.${month}.${year} ${hours}:${minutes}`;
   };
 
+  const escapeHtml = (unsafe) => {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  };
+
 
   const switchLike = (element) => {
     const likeCounter = element
@@ -35,14 +42,27 @@ const renderFunc = () => {
     likeCounter.textContent = currentCount;
   };
 
-  const commentClick = (event) => {
-    nameForm.textContent = event.target.querySelector(".comment-name");
-    textarea.textContent = event.target.querySelector(".comment-text");
+  const commentClick = (cardElement) => {
+    const nameElement = cardElement.querySelector(".comment-name");
+    const textElement = cardElement.querySelector(".comment-text");
+
+    if (nameElement && textElement) {
+      textarea.value = `
+        ${nameElement.textContent.trim()} >
+        ${textElement.textContent.trim()}
+      `
+    }
   };
 
   comments.addEventListener("click", (e) => {
     if (e.target.classList.contains("like-button")) {
       switchLike(e.target);
+      return;
+    }
+
+    const cardElement = e.target.closest(".comment");
+    if (cardElement) {
+      commentClick(cardElement);
     }
   });
 
@@ -50,16 +70,17 @@ const renderFunc = () => {
     nameValue,
     commentValue,
     likeCounter = 0,
-    isLiked = false
+    isLiked = false,
+    date
   ) => `
     <li class="comment">
       <div class="comment-header">
-        <div class="comment-name">${nameValue}</div>
-        <div>${formatDate(now)}</div>
+        <div class="comment-name">${escapeHtml(nameValue)}</div>
+        <div>${date}</div>
       </div>
       <div class="comment-body">
         <div class="comment-text">
-          ${commentValue}
+          ${escapeHtml(commentValue)}
         </div>
       </div>
       <div class="comment-footer">
@@ -71,24 +92,24 @@ const renderFunc = () => {
     </li>
   `;
 
-  cards.forEach((card) => {
+  const addCard = (card) => {
     comments.innerHTML += commentCard(
       card.name,
       card.comment,
       card.likes,
-      card.isLiked
+      card.isLiked,
+      card.date
     );
+  }
+
+  cards.forEach((card) => {
+    addCard(card);
   })
 
   const addComment = (name, comment) => {
-    const newCard = addCardToArray(name, comment);
+    const newCard = addCardToArray(name, comment, formatDate(now));
 
-    comments.innerHTML += commentCard(
-      newCard.name,
-      newCard.comment,
-      newCard.likes,
-      newCard.isLiked
-    );
+    addCard(newCard);
   }
 
   btn.addEventListener("click", () => {
