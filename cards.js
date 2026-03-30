@@ -11,16 +11,17 @@ export const cards = [
     comment: "Мне нравится как оформлена эта страница! ❤",
     likes: 75,
     isLiked: true,
+    date: "13.02.22 19:22",
   },
 ];
 
-export const addCardToArray = (name, comment) => {
+export const addCardToArray = (name, comment, date) => {
   const newCard = {
     name,
     comment,
     likes: 0,
     isLiked: false,
-    date: "13.02.22 19:22",
+    date,
   };
 
   cards.push(newCard);
