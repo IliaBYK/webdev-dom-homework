@@ -1,21 +1,6 @@
-export const cards = [
-  {
-    name: "Глеб Фокин",
-    comment: "Это будет первый комментарий на этой странице",
-    likes: 3,
-    isLiked: false,
-    date: "12.02.22 12:18",
-  },
-  {
-    name: "Варвара Н.",
-    comment: "Мне нравится как оформлена эта страница! ❤",
-    likes: 75,
-    isLiked: true,
-    date: "13.02.22 19:22",
-  },
-];
+import { postComment } from "../API/api.js";
 
-export const addCardToArray = (name, comment, date) => {
+export const addCardToArray = async (name, comment, date) => {
   const newCard = {
     name,
     comment,
@@ -24,6 +9,6 @@ export const addCardToArray = (name, comment, date) => {
     date,
   };
 
-  cards.push(newCard);
+  await postComment({ text: comment, name: name });
   return newCard;
 };

@@ -1,9 +1,9 @@
 import { commentCard } from "./commentCard.js";
 
-export const addCard = (card, container) => {
+export const addCard = async (card, container) => {
   container.innerHTML += commentCard(
-    card.name,
-    card.comment,
+    card.author.name,
+    card.text,
     card.likes,
     card.isLiked,
     card.date,

@@ -1,30 +1,50 @@
-import { cards, addCardToArray } from "./modules/cards.js";
 import { textarea } from "./modules/functions.js";
-import { formatDate } from "./modules/date.js";
 import { addCard } from "./modules/addCard.js";
 import { listeners } from "./modules/listeners.js";
 import { addComment as newComment } from "./modules/listeners.js";
+import { getComments, postComment } from "./API/api.js";
 
-const now = new Date();
-const renderFunc = () => {
-  const comments = document.querySelector(".comments");
-  const btn = document.querySelector(".add-form-button");
-  const nameForm = document.querySelector(".add-form-name");
-  const addComment = (name, comment) => {
-    const newCard = addCardToArray(name, comment, formatDate(now));
+const renderFunc = async () => {
+  try {
+    const cards = await getComments();
+    const comms = cards.comments;
+    const comments = document.querySelector(".comments");
+    const btn = document.querySelector(".add-form-button");
+    const nameForm = document.querySelector(".add-form-name");
 
-    addCard(newCard, comments);
-  };
+    listeners(comments);
 
-  listeners(comments);
+    comments.innerHTML = "";
 
-  cards.forEach((card) => {
-    addCard(card, comments);
-  });
+    comms.forEach((card) => {
+      addCard(card, comments);
+    });
 
-  newComment(btn, nameForm, textarea, addComment);
+    const addComment = async (name, comment) => {
+      try {
+        await postComment({ text: comment, name: name });
 
-  console.log("It works!");
+        const updatedCards = await getComments();
+        const updatedComments = updatedCards.comments;
+
+        comments.innerHTML = "";
+
+        updatedComments.forEach((card) => {
+          addCard(card, comments);
+        });
+
+        nameForm.value = "";
+        textarea.value = "";
+      } catch (error) {
+        console.error("Ошибка при добавлении комментария:", error);
+      }
+    };
+
+    newComment(btn, nameForm, textarea, addComment);
+    console.log("It works!");
+  } catch (error) {
+    console.error("Ошибка загрузки комментариев:", error);
+  }
 };
 
 renderFunc();
