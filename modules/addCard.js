@@ -1,4 +1,5 @@
 import { commentCard } from "./commentCard.js";
+import { formatDate } from "./date.js";
 
 export const addCard = async (card, container) => {
   container.innerHTML += commentCard(
@@ -6,6 +7,6 @@ export const addCard = async (card, container) => {
     card.text,
     card.likes,
     card.isLiked,
-    card.date,
+    formatDate(card.date),
   );
 };
