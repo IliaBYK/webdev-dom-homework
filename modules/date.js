@@ -1,0 +1,13 @@
+export const formatDate = (input) => {
+  const date = new Date(input);
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() возвращает 0–11
+  const year = String(date.getFullYear()).slice(-2);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  const formatted = `${day}.${month}.${year} ${hours}:${minutes}`;
+  return formatted;
+  //console.log(formatted); // 30.03.26 14:25
+};
