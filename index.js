@@ -1,3 +1,4 @@
+import { hideLoader, showLoaderWithText } from "./modules/loader.js";
 import { textarea } from "./modules/functions.js";
 import { addCard } from "./modules/addCard.js";
 import { listeners } from "./modules/listeners.js";
@@ -5,12 +6,14 @@ import { addComment as newComment } from "./modules/listeners.js";
 import { getComments, postComment } from "./API/api.js";
 
 const renderFunc = async () => {
+  const comments = document.querySelector(".comments");
+  const btn = document.querySelector(".add-form-button");
+  const nameForm = document.querySelector(".add-form-name");
+  const loaderGetComments = showLoaderWithText("Коментарии загружаются...");
+
   try {
     const cards = await getComments();
     const comms = cards.comments;
-    const comments = document.querySelector(".comments");
-    const btn = document.querySelector(".add-form-button");
-    const nameForm = document.querySelector(".add-form-name");
 
     listeners(comments);
 
@@ -20,8 +23,13 @@ const renderFunc = async () => {
       addCard(card, comments);
     });
 
+    hideLoader(loaderGetComments);
+
     const addComment = async (name, comment) => {
       try {
+        const loaderPostComment = showLoaderWithText(
+          "Коментарий загружается...",
+        );
         await postComment({ text: comment, name: name });
 
         const updatedCards = await getComments();
@@ -32,6 +40,8 @@ const renderFunc = async () => {
         updatedComments.forEach((card) => {
           addCard(card, comments);
         });
+
+        hideLoader(loaderPostComment);
 
         nameForm.value = "";
         textarea.value = "";

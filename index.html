@@ -8,8 +8,8 @@
 
   <body>
     <div class="container">
+      <!-- <div class="loader">Комментарии загружаются ...</div> -->
       <ul class="comments">
-        
       </ul>
       <div class="add-form">
         <input
@@ -29,6 +29,13 @@
       </div>
     </div>
   </body>
+
+  <template id="loader-template">
+    <div class="loader">
+      <h3 class="loader__title">Пожалуйста, подождите</h3>
+      <p class="loader__text"></p>
+    </div>
+  </template>
 
   <script type="module" src="index.js"></script>
 </html>
