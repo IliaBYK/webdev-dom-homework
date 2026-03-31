@@ -25,4 +25,13 @@ const postComment = async (body) => {
   }
 };
 
-export { getComments, postComment };
+//функция для лайка
+const delay = (interval = 300) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, interval);
+  });
+};
+
+export { getComments, postComment, delay };
